@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Dao\Analises\DadosGeograficosIDHDao;
 use Illuminate\Http\Request;
 
 use App\Services\Analises\ObterBarraTransparenciaOsc\Service as ObterBarraTransparenciaOsc;
@@ -9,6 +10,8 @@ use App\Services\Analises\ObterGrafico\Service as ObterGrafico;
 use App\Services\Analises\ObterListaOscsAtualizadas\Service as ObterListaOscsAtualizadas;
 use App\Services\Analises\ObterListaOscsAreaAtuacao\Service as ObterListaOscsAreaAtuacao;
 use App\Services\Analises\ObterPerfilLocalidade\Service as ObterPerfilLocalidade;
+use App\Services\Analises\ObterDadosGeograficosIDH\Service as ObterDadosGeograficosIDH;
+use Illuminate\Support\Facades\DB;
 
 class AnalisesController extends Controller{
     public function obterBarraTransparenciaOsc(Request $request, $id_osc, ObterBarraTransparenciaOsc $service){
@@ -55,5 +58,23 @@ class AnalisesController extends Controller{
         $response = $this->getResponse($accept);
         
         return $response;
+    }
+
+    public function obterDadosGeograficosIDH(Request $request, $id, ObterDadosGeograficosIDH $service){
+        $extensaoConteudo = ['id' => $id];
+        $this->executarService($service, $request, $extensaoConteudo);
+
+        $accept = $request->header('Accept');
+        $response = $this->getResponse($accept);
+
+        return $response;
+
+        /*
+        $dao = new DadosGeograficosIDHDao();
+
+        $resultado =  $dao->obterDadosGeograficosIDHDao();
+
+        return $resultado;
+        */
     }
 }
